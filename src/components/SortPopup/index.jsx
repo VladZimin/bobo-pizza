@@ -1,10 +1,12 @@
 import React from 'react'
 
-export const SortPopup = ({ items }) => {
+export const SortPopup = React.memo(({ items }) => {
+
   const [visiblePopup, setVisiblePopup] = React.useState(false)
   const [curIndex, setCurIndex] = React.useState(0)
   const sortElemRef = React.useRef()
   const activeLabel = items[curIndex]
+
   const onSelectItem = (index) => {
     setCurIndex(index)
     setVisiblePopup(false)
@@ -44,9 +46,10 @@ export const SortPopup = ({ items }) => {
       {visiblePopup && <div className='sort__popup'>
         <ul>{
           items && items.map((item, index) => <li
+            key={`${item}_${index}`}
             onClick={() => onSelectItem(index)}
             className={curIndex === index ? 'active' : ''}>{item}</li>)}
         </ul>
       </div>}
     </div>)
-}
+})

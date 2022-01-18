@@ -1,9 +1,11 @@
 import React from 'react'
 
-export const Categories = ({ items }) => {
+export const Categories = React.memo(({ items, onClickCat }) => {
   const [curIndex, setCurIndex] = React.useState(null)
+  console.log('RERENDER')
   const onSelectItem = (index) => {
     setCurIndex(index)
+    onClickCat(index)
   }
 
   return <div className='categories'>
@@ -14,4 +16,4 @@ export const Categories = ({ items }) => {
             className={`${curIndex === index ? 'active' : ''}`}>{item}</li>)}
     </ul>
   </div>
-}
+})
