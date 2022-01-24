@@ -1,9 +1,12 @@
-import { combineReducers, createStore } from 'redux'
+import { applyMiddleware, combineReducers, compose, createStore } from 'redux'
 import { pizzasReducer } from './reducers/pizzas'
-import { categoryReducer } from './reducers/categories'
+import { filtersReducer } from './reducers/filters'
+import thunk from 'redux-thunk'
 
 const rootReducer = combineReducers({
   pizzas: pizzasReducer,
-  category: categoryReducer,
+  filters: filtersReducer,
 })
-export const store = createStore(rootReducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
+export const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)))
