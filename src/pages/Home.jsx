@@ -11,9 +11,9 @@ import { fetchPizzas } from '../redux/actions/pizzas'
 
 const categoryArr = ['Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые']
 const sortByArr = [
-  { name: 'популярности', type: 'popular' },
-  { name: 'цене', type: 'price' },
-  { name: 'алфавиту', type: 'alphabet' },
+  { name: 'популярности', type: 'rating', order: 'desc' },
+  { name: 'цене', type: 'price', order: 'desc' },
+  { name: 'алфавиту', type: 'name', order: 'asc' },
 ]
 
 export const Home = () => {
@@ -23,16 +23,16 @@ export const Home = () => {
   const { category, sortBy } = useSelector(state => state.filters)
 
   React.useEffect(() => {
-    dispatch(fetchPizzas())
-  }, [category])
+    dispatch(fetchPizzas(category, sortBy))
+  }, [category, sortBy])
 
 
   const onSelectCategory = React.useCallback((index) => {
     dispatch(setCategory(index))
-  }, [dispatch])
-  const onSelectSortBy = React.useCallback((type) => {
-    dispatch(setSortType(type))
-  }, [dispatch])
+  }, [])
+  const onSelectSortBy = React.useCallback((obj) => {
+    dispatch(setSortType(obj))
+  }, [])
 
   return (
     <div className='container'>
@@ -43,7 +43,7 @@ export const Home = () => {
           onClickCategory={onSelectCategory}
         />
         <SortPopup
-          sortType={sortBy}
+          sortObj={sortBy}
           items={sortByArr}
           onClickSortBy={onSelectSortBy}
         />

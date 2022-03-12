@@ -9,6 +9,7 @@ export const LoadingBlock = () => (
     viewBox='0 0 280 457'
     backgroundColor='#f3f3f3'
     foregroundColor='#ecebeb'
+    className='loading-block'
   >
     <rect x='0' y='268' rx='6' ry='6' width='272' height='30' />
     <circle cx='136' cy='125' r='125' />

@@ -4,10 +4,10 @@ export const setCategory = (index) => (
     payload: index,
   }
 )
-export const setSortType = (type) => (
+export const setSortType = ({ type, order }) => (
   {
     type: 'SET_SORT_TYPE',
-    payload: type,
+    payload: { type, order },
   }
 )
 
