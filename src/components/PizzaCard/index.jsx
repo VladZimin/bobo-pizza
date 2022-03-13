@@ -1,8 +1,12 @@
 import React from 'react'
 import cn from 'classnames'
 import PropTypes from 'prop-types'
+import { Button } from '../Button'
 
-export const PizzaCard = ({ name, imageUrl, price, types, sizes }) => {
+const availableTypes = ['тонкое', 'традиционное']
+const availableSizes = [26, 30, 40]
+
+export const PizzaCard = ({ id, name, imageUrl, price, types, sizes, onClickAddPizzaToCart, addedCount }) => {
   const [typeIndex, setTypeIndex] = React.useState(types[0])
   const [sizeIndex, setSizeIndex] = React.useState(() => {
     switch (sizes[0]) {
@@ -14,14 +18,14 @@ export const PizzaCard = ({ name, imageUrl, price, types, sizes }) => {
         return 0
     }
   })
-  const availableTypes = ['тонкое', 'традиционное']
-  const availableSizes = [26, 30, 40]
-
   const onSelectType = (index) => {
     setTypeIndex(index)
   }
   const onSelectSize = (index) => {
     setSizeIndex(index)
+  }
+  const handleAddPizzaToCart = () => {
+    onClickAddPizzaToCart({ id, name, imageUrl, price })
   }
   return (
     <div className='pizza-block'>
@@ -59,7 +63,7 @@ export const PizzaCard = ({ name, imageUrl, price, types, sizes }) => {
       </div>
       <div className='pizza-block__bottom'>
         <div className='pizza-block__price'>от {price} ₽</div>
-        <div className='button button--outline button--add'>
+        <Button onClick={handleAddPizzaToCart} className='button button--outline button--add'>
           <svg
             width='12'
             height='12'
@@ -73,8 +77,8 @@ export const PizzaCard = ({ name, imageUrl, price, types, sizes }) => {
             />
           </svg>
           <span>Добавить</span>
-          <i>2</i>
-        </div>
+          {addedCount && <i>{addedCount}</i>}
+        </Button>
       </div>
     </div>
   )

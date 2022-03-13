@@ -14,8 +14,9 @@ export const SortPopup = React.memo(({ items, sortObj, onClickSortBy }) => {
   React.useEffect(() => {
     document.querySelector('body').addEventListener('click', handleSortClick)
   }, [])
-  const handleSortClick = (e) => {
-    if (!e.path.includes(sortElemRef.current)) {
+  const handleSortClick = (event) => {
+    let path = event.path || (event.composedPath && event.composedPath())
+    if (!path.includes(sortElemRef.current)) {
       setVisiblePopup(false)
     }
   }

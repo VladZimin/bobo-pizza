@@ -3,7 +3,7 @@ const initialState = {
   sortBy: { type: 'rating', order: 'desc' },
 }
 
-export const filtersReducer = (state = initialState, action) => {
+export const filters = (state = initialState, action) => {
   const { type, payload } = action
   switch (type) {
     case 'SET_CATEGORY':
