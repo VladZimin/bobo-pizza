@@ -15,7 +15,7 @@ const setPizzasItems = (items) => (
 export const fetchPizzas = (category, { type, order }) => dispatch => {
   dispatch(setLoaded(false))
   axios
-    .get(`http://localhost:3001/pizzas?${category !== null ? `category=${category}` : ''
+    .get(`/pizzas?${category !== null ? `category=${category}` : ''
     }&_sort=${type}&_order=${order}`)
     .then(({ data }) => dispatch(setPizzasItems(data)))
 }

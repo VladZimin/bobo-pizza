@@ -23,7 +23,7 @@ export const Home = () => {
   const cartItems = useSelector(({ cart }) => cart.items)
   const isLoading = useSelector(state => state.pizzas.isLoading)
   const { category, sortBy } = useSelector(state => state.filters)
-
+  console.log(cartItems)
   React.useEffect(() => {
     dispatch(fetchPizzas(category, sortBy))
   }, [category, sortBy])
@@ -58,7 +58,7 @@ export const Home = () => {
         {
           isLoading
             ? pizzaItems.map((obj) => <PizzaCard key={obj.id}
-                                                 addedCount={cartItems[obj.id] && cartItems[obj.id].length}
+                                                 addedCount={cartItems[obj.id] && cartItems[obj.id].items.length}
                                                  onClickAddPizzaToCart={addPizzaToCart} {...obj} />)
             : Array(10).fill(null).map((_, index) => <LoadingBlock key={index} />)
         }

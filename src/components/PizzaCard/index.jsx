@@ -25,7 +25,16 @@ export const PizzaCard = ({ id, name, imageUrl, price, types, sizes, onClickAddP
     setSizeIndex(index)
   }
   const handleAddPizzaToCart = () => {
-    onClickAddPizzaToCart({ id, name, imageUrl, price })
+    const obj = {
+      id,
+      name,
+      imageUrl,
+      price,
+      type: availableTypes[typeIndex],
+      size: availableSizes[sizeIndex],
+    }
+
+    onClickAddPizzaToCart(obj)
   }
   return (
     <div className='pizza-block'>
