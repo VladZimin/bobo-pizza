@@ -1,9 +1,10 @@
 import React from 'react'
-import { CartItem } from '../components/CartItem'
-import { useSelector, useDispatch } from 'react-redux'
-import { clearCart, removeCartItem } from '../redux/actions/cart'
-import { CartEmpty } from '../components/CartEmpty'
 import { Link } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
+
+import { CartItem } from '../components/CartItem'
+import { CartEmpty } from '../components/CartEmpty'
+import { clearCart, minusCertItem, plusCartItem, removeCartItem } from '../redux/actions/cart'
 
 export const Cart = () => {
 
@@ -12,14 +13,23 @@ export const Cart = () => {
 
   const addedPizzas = Object.keys(items).map(key => items[key].items[0])
   const onClearCart = () => {
-    if (window.confirm('Удалить все пиццы с корзины???')) {
+    if (window.confirm('Удалить все пиццы с корзины?')) {
       dispatch(clearCart())
     }
   }
   const onRemoveItem = (id) => {
-    if (window.confirm('Удалить все пиццы с корзины???')) {
+    if (window.confirm('Удалить пиццу с корзины?')) {
       dispatch(removeCartItem(id))
     }
+  }
+  const onPlusItem = (id) => {
+    dispatch(plusCartItem(id))
+  }
+  const onMinusItem = (id) => {
+    dispatch(minusCertItem(id))
+  }
+  const onClickOrder = () => {
+    console.log('ВАШ ЗАКАЗ:', items)
   }
   return (
     <div className='content'>
@@ -53,15 +63,16 @@ export const Cart = () => {
                   <path d='M11.6666 9.16667V14.1667' stroke='#B6B6B6' strokeWidth='1.2' strokeLinecap='round'
                         strokeLinejoin='round' />
                 </svg>
-
                 <span onClick={onClearCart}>Очистить корзину</span>
               </div>
             </div>
             <div className='content__items'>
               {
-                addedPizzas.map(obj => <CartItem id={obj.id} name={obj.name} size={obj.size} type={obj.type}
+                addedPizzas.map(obj => <CartItem key={obj.id} id={obj.id} name={obj.name} size={obj.size}
+                                                 type={obj.type}
                                                  totalPrice={items[obj.id].totalPrice}
-                                                 totalCount={items[obj.id].items.length} onRemove={onRemoveItem} />)
+                                                 totalCount={items[obj.id].items.length} onRemove={onRemoveItem}
+                                                 onPlus={onPlusItem} onMinus={onMinusItem} />)
               }
             </div>
             <div className='cart__bottom'>
@@ -77,7 +88,7 @@ export const Cart = () => {
                   </svg>
                   <span>Вернуться назад</span>
                 </Link>
-                <div className='button pay-btn'>
+                <div onClick={onClickOrder} className='button pay-btn'>
                   <span>Оплатить сейчас</span>
                 </div>
               </div>

@@ -5,6 +5,7 @@ const initialState = {
 }
 
 const getTotalPrice = arr => arr.reduce((sum, obj) => sum + obj.price, 0)
+const getAllPizzas = obj => [].concat(...Object.values(obj).map(obj => obj.items))
 
 export const cart = (state = initialState, action) => {
   const { type, payload } = action
@@ -20,7 +21,7 @@ export const cart = (state = initialState, action) => {
           totalPrice: getTotalPrice(currentPizzaItems),
         },
       }
-      const allPizzas = [].concat(...Object.values(newItems).map(obj => obj.items))
+      const allPizzas = getAllPizzas(newItems)
       return {
         ...state,
         items: newItems,
@@ -39,6 +40,41 @@ export const cart = (state = initialState, action) => {
         items: newItems,
         totalCount: currentTotalCount,
         totalPrice: currentTotalPrice,
+      }
+    }
+    case 'PLUS_CART_ITEM': {
+      const newItems = [...state.items[payload].items, state.items[payload].items[0]]
+      const newObjItems = {
+        ...state.items,
+        [payload]: {
+          items: newItems,
+          totalPrice: getTotalPrice(newItems),
+        },
+      }
+      const allPizzas = getAllPizzas(newObjItems)
+      return {
+        ...state,
+        items: newObjItems,
+        totalCount: allPizzas.length,
+        totalPrice: getTotalPrice(allPizzas),
+      }
+    }
+    case 'MINUS_CART_ITEM': {
+      const oldItems = state.items[payload].items
+      const newItems = oldItems.length > 1 ? state.items[payload].items.slice(1) : oldItems
+      const newObjItems = {
+        ...state.items,
+        [payload]: {
+          items: newItems,
+          totalPrice: getTotalPrice(newItems),
+        },
+      }
+      const allPizzas = getAllPizzas(newObjItems)
+      return {
+        ...state,
+        items: newObjItems,
+        totalCount: allPizzas.length,
+        totalPrice: getTotalPrice(allPizzas),
       }
     }
     case 'CLEAR_CART': {

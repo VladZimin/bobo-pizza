@@ -1,5 +1,4 @@
 import React from 'react'
-
 import { useDispatch, useSelector } from 'react-redux'
 
 import { Categories } from '../components/Categories'
@@ -23,18 +22,17 @@ export const Home = () => {
   const cartItems = useSelector(({ cart }) => cart.items)
   const isLoading = useSelector(state => state.pizzas.isLoading)
   const { category, sortBy } = useSelector(state => state.filters)
-  console.log(cartItems)
   React.useEffect(() => {
     dispatch(fetchPizzas(category, sortBy))
-  }, [category, sortBy])
+  }, [dispatch, category, sortBy])
 
 
   const onSelectCategory = React.useCallback((index) => {
     dispatch(setCategory(index))
-  }, [])
+  }, [dispatch])
   const onSelectSortBy = React.useCallback((obj) => {
     dispatch(setSortType(obj))
-  }, [])
+  }, [dispatch])
   const addPizzaToCart = (obj) => {
     dispatch(setAddToCart(obj))
   }
